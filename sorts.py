@@ -9,30 +9,33 @@ import xlwt
 class Sorts:
 	#BUBBLE SORT
 	def __init__(self):
-		#size, min val, max val
-
-		#don't do more than 10^5 for bubble and insertion
-		#don't do more than 10^7 for the rest
-
-		
-		programBegin = datetime.datetime.now()
-
-		size = 10
-		maxSize = 10000000
-		minNumSize = 0
-		maxNumSize = 10000
-		maxNsquaredSize = 10000
-
-		increment = "0"
-
+		#Initialize excel sheet
 		wb = xlwt.Workbook()
 		style0 = xlwt.easyxf('font: name Arial, color-index black')
+
+		#Possible range of array number
+		minNum = 0
+		maxNum = 1000
+		#don't do more than 10^5 for bubble and insertion
+		#don't do more than 10^7 for the rest
+		maxNsquaredSize = 10000
+		maxSize = 10000000
+
+		#Set array size
+		size = 10
+		#Set increment
+		increment = "0"
+
+		#begin recording time
+		programBegin = datetime.datetime.now()
+
 		while size <= maxSize:
-			#TODO: write to excel
+
+			iterationBegin = datetime.datetime.now()
 			print "iteration:", 
 			print size
 
-			#Create sheet
+			#Create new excel sheet
 			ws = wb.add_sheet(str(size))
 
 			if size <= maxNsquaredSize:
@@ -45,9 +48,10 @@ class Sorts:
 
 			for i in xrange(1,6):
 				#row, col
-				array = generateRandomArray(size,minNumSize,maxNumSize)
+				array = generateRandomArray(size,minNum,maxNum)
 
-				if size <= 10000:
+				#don't go past this number for nsquared sorting algorithms
+				if size <= maxNsquaredSize:
 					time = bubblesort(array)
 					ws.write(i,0, time, style0)
 
@@ -66,33 +70,24 @@ class Sorts:
 				time = radixsort(array)
 				ws.write(i,5, time, style0)
 
-			#increment
-			if increment[:1] == "4":
-				increment = "5" + increment[1:]
-			elif increment[:1] == "5":
-				increment = "4" + increment[1:] + "0"
-			elif increment[:1] == "0":
-				increment = "40"
-
+			#increment size of array
+			increment = incrementArray(increment)
 			size += int(increment)
 
-			#save excel
+			#save after each sheet, just in case you want to stop program earlier
 			wb.save('Data.xls')
 
 			#print time so far
 			print "Time taken for iteration:",
-			print datetime.datetime.now() - programBegin
+			print datetime.datetime.now() - iterationBegin
 			print
 
 		c = datetime.datetime.now() - programBegin
 		print "The program took:",
 		print c
 
-
-
 def bubblesort(array):
 	a = array[:]
-	#print "Performing bubble sort..."
 	startTime = datetime.datetime.now()
 	length = len(a)
 
@@ -108,7 +103,6 @@ def bubblesort(array):
 
 def insertionsort(array):
 	a = array[:]
-	#print "Performing insertion sort..."
 	startTime = datetime.datetime.now()
 	length = len(a)
 
@@ -129,7 +123,6 @@ def insertionsort(array):
 
 def radixsort(array):
 	a = array[:]
-	#print "Performing radix sort..."
 	startTime = datetime.datetime.now()
 
 
@@ -171,7 +164,6 @@ def radixsort(array):
 
 def quicksort(array):
 	a = array[:]
-	#print "Performing quick sort..."
 	startTime = datetime.datetime.now()
 
 	_quicksort(a)
@@ -215,9 +207,6 @@ def _mergesort(a):
 		left = a[:mid]
 		right = a[mid:]
 
-		#print "Splitting ",
-		#print a
-		#recursively split array
 		_mergesort(left)
 		_mergesort(right)
 
@@ -256,7 +245,6 @@ def _mergesort(a):
 def heapsort(array):
 	a = array[:]
 	#first step is to heapify ENTIRE array
-	#print "Performing heap sort..."
 	startTime = datetime.datetime.now()
 	length = len(a)
 	heapify(a, length)
@@ -275,7 +263,7 @@ def heapsort(array):
 	return getMilliseconds(startTime)
 
 
-#Help from Rosetta code
+#Credit to Rosetta code
 def heapify(a, length):
 	#get last parent node (remember, 0 is first element)
 	start = (length-2)//2
@@ -302,6 +290,14 @@ def siftDown(a, start, end):
 		else:
 			#otherwise we are done sifting
 			return
+
+def incrementArray(inc):
+	if inc[:1] == "4":
+		return "5" + inc[1:]
+	if inc[:1] == "5":
+		return "4" + inc[1:] + "0"
+	if inc[:1] == "0":
+		return "40"
 
 def getMilliseconds(startTime):
 	c = datetime.datetime.now() - startTime
