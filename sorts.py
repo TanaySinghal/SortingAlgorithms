@@ -99,7 +99,7 @@ def bubblesort(array):
 				a[j], a[j+1] = a[j+1], a[j]
 
 	return getMilliseconds(startTime)
-	#return a
+
 
 def insertionsort(array):
 	a = array[:]
@@ -159,7 +159,6 @@ def radixsort(array):
 
 
 	return getMilliseconds(startTime)
-	#remove from bucket
 
 
 def quicksort(array):
@@ -238,9 +237,6 @@ def _mergesort(a):
 			j = j + 1
 			k = k + 1
 
-		#print "Merging ",
-		#print a
-
 
 def heapsort(array):
 	a = array[:]
@@ -302,13 +298,7 @@ def incrementArray(inc):
 def getMilliseconds(startTime):
 	c = datetime.datetime.now() - startTime
 	milliseconds = (c.days * 24 * 60 * 60 + c.seconds) * 1000 + c.microseconds / 1000.0
-
-	#print "Time taken: ", 
-	#print milliseconds,
-	#print "milliseconds"
-
 	return milliseconds
-
 
 def generateRandomArray(size, minimum, maximum):
 	array = [None] * size
