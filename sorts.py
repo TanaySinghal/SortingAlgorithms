@@ -3,11 +3,7 @@ import random
 import datetime
 import xlwt
 
-#add sheet after each iteration of changing array
-#change column after each iteration
-
 class Sorts:
-	#BUBBLE SORT
 	def __init__(self):
 		#Initialize excel sheet
 		wb = xlwt.Workbook()
@@ -38,16 +34,17 @@ class Sorts:
 			#Create new excel sheet
 			ws = wb.add_sheet(str(size))
 
+			#Write titles of each algorithm
 			if size <= maxNsquaredSize:
 				ws.write(0,0, "Bubble sort")
-				ws.write(0,1, "insertion sort")
-			ws.write(0,2, "quick sort")
-			ws.write(0,3, "heap sort")
-			ws.write(0,4, "merge sort")
-			ws.write(0,5, "radix sort")
+				ws.write(0,1, "Insertion sort")
+			ws.write(0,2, "Quick sort")
+			ws.write(0,3, "Heap sort")
+			ws.write(0,4, "Merge sort")
+			ws.write(0,5, "Radix sort")
 
+			#Write millisecond taken by each algorithm on a new row
 			for i in xrange(1,6):
-				#row, col
 				array = generateRandomArray(size,minNum,maxNum)
 
 				#don't go past this number for nsquared sorting algorithms
@@ -77,14 +74,12 @@ class Sorts:
 			#save after each sheet, just in case you want to stop program earlier
 			wb.save('Data.xls')
 
-			#print time so far
 			print "Time taken for iteration:",
 			print datetime.datetime.now() - iterationBegin
 			print
 
-		c = datetime.datetime.now() - programBegin
-		print "The program took:",
-		print c
+		print "Time taken overall:",
+		print datetime.datetime.now() - programBegin
 
 def bubblesort(array):
 	a = array[:]
